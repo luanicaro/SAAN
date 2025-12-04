@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Avaliações</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* --- DESIGN SYSTEM (Dark Mode) --- */
+        :root {
+            --bg-body: #0f172a;       /* Slate 900 */
+            --bg-card: #1e293b;       /* Slate 800 */
+            --text-main: #f8fafc;     /* White/Slate 50 */
+            --text-sec: #94a3b8;      /* Slate 400 */
+            --primary: #3b82f6;       /* Blue 500 */
+            --border: #334155;        /* Slate 700 */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background-color: var(--bg-body);
+            padding: 20px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky; top: 0; z-index: 10;
+            backdrop-filter: blur(8px);
+        }
+        .brand { font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; }
+        .nav-links a { color: var(--text-sec); text-decoration: none; margin-left: 24px; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-links a:hover { color: white; }
+        .btn-create { background-color: var(--primary); color: white !important; padding: 8px 16px; border-radius: 6px; font-weight: 600; }
+
+        /* CONTAINER */
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+
+        /* FORM WRAPPER (Separador de Formulários) */
+        .form-wrapper {
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+        .form-wrapper:last-child { border-bottom: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* HEADER DO FORMULÁRIO */
+        .form-header { margin-bottom: 32px; }
+        .badge { 
+            display: inline-block; background: rgba(59,130,246,0.1); color: var(--primary); 
+            font-size: 0.75rem; padding: 4px 8px; border-radius: 99px; margin-bottom: 12px; font-weight: 600;
+        }
+        h2 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; color: white; }
+        .desc { color: var(--text-sec); line-height: 1.6; font-size: 1rem; }
+
+        /* CARD DA PERGUNTA */
+        .question-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .q-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; line-height: 1.5; }
+        .q-example { 
+            display: block; 
+            color: var(--text-sec); 
+            font-style: italic; 
+            font-size: 0.95rem; 
+            margin-bottom: 24px;
+            background: rgba(15, 23, 42, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--border);
+        }
+
+        /* BUTTONS GRID (Likert) */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+        
+        .option-btn {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-sec);
+            padding: 12px 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            text-align: center;
+            height: 60px;
+            display: flex; align-items: center; justify-content: center;
+            line-height: 1.2;
+        }
+
+        .option-btn:hover { border-color: var(--text-sec); color: white; background-color: rgba(255,255,255,0.05); }
+        
+        /* Estado Selecionado */
+        .option-btn.active-blue {
+            background-color: rgba(59, 130, 246, 0.2);
+            border: 2px solid var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* LOADING STATES */
+        .loading-state, .empty-state { text-align: center; padding: 60px; color: var(--text-sec); }
+        .refresh-btn { 
+            background: transparent; border: 1px solid var(--border); color: var(--text-main); 
+            padding: 8px 16px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
+        }
+        .refresh-btn:hover { border-color: var(--text-sec); }
+
+        @media (max-width: 768px) {
+            .options-grid { grid-template-columns: 1fr; }
+            .option-btn { height: auto; padding: 16px; justify-content: flex-start; text-align: left; }
+            .navbar { padding: 16px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <i data-lucide="layers"></i> Portal do Avaliador
+        </div>
+        <div class="nav-links">
+            <a href="/">Início</a>
+            <button onclick="fetchForms()" style="background:none; border:none; color:var(--text-sec); cursor:pointer; font-size:0.9rem; margin-left: 20px;">
+                Atualizar
+            </button>
+            <a href="cadastro.html" class="btn-create">Criar Novo</a>
+        </div>
+    </nav>
+
+    <div class="container" id="content-area">
+        <div class="loading-state">
+            <i data-lucide="loader-2" class="animate-spin" style="width: 32px; height: 32px; animation: spin 1s infinite linear;"></i>
+            <p style="margin-top: 16px;">Carregando formulários...</p>
+        </div>
+    </div>
+
+    <script>
+        // URL da API (Via Proxy)
+        const API_URL = '/api/forms'; 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            fetchForms();
+        });
+
+        async function fetchForms() {
+            const contentArea = document.getElementById('content-area');
+            
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) throw new Error('Erro na conexão');
+                
+                const forms = await res.json();
+                renderForms(forms);
+
+            } catch (err) {
+                console.error(err);
+                contentArea.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="wifi-off" style="width: 48px; height: 48px; margin-bottom: 16px;"></i>
+                        <h3>Erro de Conexão</h3>
+                        <p>Verifique se o backend Python está rodando.</p>
+                        <button class="refresh-btn" onclick="fetchForms()">Tentar Novamente</button>
+                    </div>`;
+                lucide.createIcons();
+            }
+        }
+
+        function renderForms(forms) {
+            const contentArea = document.getElementById('content-area');
+
+            if (forms.length === 0) {
+                contentArea.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="folder-open" style="width: 48px; height: 48px; margin-bottom: 16px;"></i>
+                        <h3>Nenhum formulário disponível</h3>
+                        <p>Aguarde o administrador cadastrar novas avaliações.</p>
+                        <a href="cadastro.html" class="refresh-btn" style="text-decoration:none;">Criar Formulário</a>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            // Limpa o loader
+            contentArea.innerHTML = '';
+
+            // Itera sobre TODOS os formulários (Inverso para o mais recente aparecer primeiro)
+            [...forms].reverse().forEach((form, index) => {
+                const formWrapper = document.createElement('div');
+                formWrapper.className = 'form-wrapper';
+
+                let html = `
+                    <div class="form-header">
+                        <span class="badge">Formulário #${forms.length - index}</span>
+                        <h2>${escapeHtml(form.title)}</h2>
+                        <p class="desc">${escapeHtml(form.description || 'Sem descrição definida.')}</p>
+                    </div>
+                `;
+
+                if (form.questions && form.questions.length > 0) {
+                    form.questions.forEach((q, qIndex) => {
+                        html += `
+                            <div class="question-card">
+                                <div class="q-title">${qIndex + 1}. ${escapeHtml(q.text)}</div>
+                                ${q.example ? `<span class="q-example"><i data-lucide="info" style="width:12px; display:inline"></i> Exemplo: ${escapeHtml(q.example)}</span>` : ''}
+                                
+                                <div class="options-grid">
+                                    <button class="option-btn" onclick="selectOption(this)">Discordo<br>Fortemente</button>
+                                    <button class="option-btn" onclick="selectOption(this)">Discordo</button>
+                                    <button class="option-btn" onclick="selectOption(this)">Neutro</button>
+                                    <button class="option-btn" onclick="selectOption(this)">Concordo</button>
+                                    <button class="option-btn" onclick="selectOption(this)">Concordo<br>Fortemente</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html += `<div style="padding: 20px; border: 1px dashed var(--border); border-radius: 8px; color: var(--text-sec); text-align: center;">Este formulário não possui perguntas.</div>`;
+                }
+
+                formWrapper.innerHTML = html;
+                contentArea.appendChild(formWrapper);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Função visual de seleção
+        window.selectOption = function(btn) {
+            const siblings = btn.parentElement.children;
+            for (let sibling of siblings) {
+                sibling.classList.remove('active-blue');
+            }
+            btn.classList.add('active-blue');
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+    <style>
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
