@@ -18,7 +18,8 @@ app.use((req, res, next) => {
 
 // 3. Servir Arquivos Estáticos (HTML, CSS, JS) [NOVO]
 // Isso faz com que o Node sirva qualquer arquivo na pasta atual
-app.use(express.static(__dirname));
+// Servir arquivos estáticos (CSS, JS, imagens) da pasta `static` sob o prefixo '/static'
+app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // 4. Configuração do Proxy para a API
 // Chamadas para /api/... vão para o Python
@@ -34,9 +35,15 @@ app.use('/api', createProxyMiddleware({
     }
 }));
 
-// Rota padrão: Se acessar a raiz, entrega o index.html (Opcional, pois o static já faz isso, mas garante)
+// Rotas para templates HTML (agora em templates/)
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'templates', 'index.html'));
+});
+app.get('/cadastro.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'templates', 'cadastro.html'));
+});
+app.get('/visualizar.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'templates', 'visualizar.html'));
 });
 
 app.listen(PORT, () => {

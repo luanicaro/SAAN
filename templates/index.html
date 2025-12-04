@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Sistema de Avaliação</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="layers"></i>
+            Avaliação de Acessibilidade
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="hero-text">
+            <h1>Portal de Avaliações</h1>
+            <p class="subtitle">Selecione seu perfil para continuar</p>
+        </div>
+
+        <nav class="nav-grid">
+            <a href="cadastro.html" class="nav-card">
+                <div class="icon-bg">
+                    <i data-lucide="settings-2" style="width: 40px; height: 40px;"></i>
+                </div>
+                <h2 class="card-title">Sou Admin</h2>
+                <p class="card-desc">Cadastrar formulários, gerenciar perguntas e definir escalas.</p>
+            </a>
+
+            <a href="visualizar.html" class="nav-card">
+                <div class="icon-bg">
+                    <i data-lucide="clipboard-check" style="width: 40px; height: 40px;"></i>
+                </div>
+                <h2 class="card-title">Sou Avaliador</h2>
+                <p class="card-desc">Responder avaliações disponíveis e testar a plataforma.</p>
+            </a>
+        </nav>
+    </div>
+
+    <footer>
+        &copy; 2025 Sistema de Gestão de Formulários (Dark Mode)
+    </footer>
+
+    <script src="/static/js/index.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

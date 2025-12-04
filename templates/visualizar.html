@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Avaliações</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/css/visualizar.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <i data-lucide="layers"></i> Portal do Avaliador
+        </div>
+        <div class="nav-links">
+            <a href="/">Início</a>
+            <button onclick="fetchForms()" style="background:none; border:none; color:var(--text-sec); cursor:pointer; font-size:0.9rem; margin-left: 20px;">
+                Atualizar
+            </button>
+            <a href="cadastro.html" class="btn-create">Criar Novo</a>
+        </div>
+    </nav>
+
+    <div class="container" id="content-area">
+        <div class="loading-state">
+            <i data-lucide="loader-2" class="animate-spin" style="width: 32px; height: 32px; animation: spin 1s infinite linear;"></i>
+            <p style="margin-top: 16px;">Carregando formulários...</p>
+        </div>
+    </div>
+
+    <script src="/static/js/visualizar.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

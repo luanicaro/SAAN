@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criador de Formulários - Dark Mode</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/css/cadastro.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div style="font-weight: 700; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="layers"></i> Avaliação de Acessibilidade
+        </div>
+        <div>
+            <a href="/" class="nav-link">Início</a>
+            <a href="visualizar.html" class="nav-link">Visualizar</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="page-header">
+            <h1>Criar Novo Formulário</h1>
+            <p>Configure as perguntas que serão apresentadas na interface escura.</p>
+        </div>
+
+        <main>
+            <div id="feedback-success" class="alert alert-success hidden" role="alert" tabindex="-1" style="flex-direction: column; align-items: flex-start;">
+                <div style="display: flex; align-items: center; gap: 12px; font-weight: bold; font-size: 1.1rem;">
+                    <i data-lucide="check-circle"></i>
+                    <span>Salvo com sucesso!</span>
+                </div>
+                <p style="margin: 8px 0 16px 36px; opacity: 0.9;">
+                    O formulário está pronto. O que deseja fazer?
+                </p>
+                <div style="margin-left: 36px; display: flex; gap: 12px;">
+                    <a href="/" class="btn-upload" style="text-decoration: none;">
+                        <i data-lucide="home" style="width: 16px;"></i> Início
+                    </a>
+                    <button type="button" class="btn-upload" onclick="resetForm()">
+                        <i data-lucide="plus-circle" style="width: 16px;"></i> Novo
+                    </button>
+                </div>
+            </div>
+
+            <div id="feedback-import" class="alert hidden" style="border-color: var(--primary); color: var(--primary);">
+                <i data-lucide="check-circle"></i> <span>Perguntas importadas! Preencha os exemplos.</span>
+            </div>
+            <div id="feedback-error" class="alert alert-error hidden">
+                <i data-lucide="alert-circle"></i> <span>Erro ao salvar. Verifique o servidor.</span>
+            </div>
+            <div id="feedback-validation" class="alert alert-error hidden">
+                <i data-lucide="alert-circle"></i> <span>Preencha o título.</span>
+            </div>
+            <div id="feedback-file-empty" class="alert alert-error hidden">
+                <i data-lucide="alert-circle"></i> <span>Arquivo vazio.</span>
+            </div>
+
+            <section class="form-section">
+                <div>
+                    <label for="form-title">Título do Formulário *</label>
+                    <input type="text" id="form-title" placeholder="Ex: Avaliação de Contraste">
+                </div>
+                <div>
+                    <label for="form-desc">Descrição</label>
+                    <textarea id="form-desc" rows="2" placeholder="Objetivo da avaliação..."></textarea>
+                </div>
+            </section>
+
+            <section class="upload-area">
+                <h3 style="margin-bottom: 8px; font-size: 1rem;">Importar Perguntas (TXT)</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">Cada linha do arquivo será uma nova pergunta.</p>
+                <input type="file" id="file-input" accept=".txt,.md,.csv" style="display: none;">
+                <button type="button" class="btn-upload" onclick="document.getElementById('file-input').click()">
+                    <i data-lucide="upload" style="width: 16px;"></i> Selecionar Arquivo
+                </button>
+            </section>
+
+            <div id="questions-container">
+                </div>
+
+            <button type="button" class="btn-add" onclick="addQuestion()">
+                <i data-lucide="plus"></i> Adicionar Pergunta Manual
+            </button>
+
+            <div class="footer-actions">
+                <button type="button" class="btn-cancel" onclick="location.href='/'"><!-- updated to root path -->Cancelar</button>
+                <button type="button" class="btn-save" onclick="handleSave()">
+                    <i data-lucide="save" style="width: 18px;"></i> Salvar
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/js/cadastro.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
