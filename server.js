@@ -21,6 +21,28 @@ app.use((req, res, next) => {
 // Servir arquivos estáticos (CSS, JS, imagens) da pasta `static` sob o prefixo '/static'
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
+// Helper simples para ler cookies sem dependências externas
+function getCookies(req) {
+    const header = req.headers['cookie'];
+    const list = {};
+    if (!header) return list;
+    header.split(';').forEach(cookie => {
+        const parts = cookie.split('=');
+        const key = decodeURIComponent(parts[0].trim());
+        const val = decodeURIComponent((parts[1] || '').trim());
+        list[key] = val;
+    });
+    return list;
+}
+
+function requireAuth(req, res, next) {
+    const cookies = getCookies(req);
+    if (!cookies['access_token']) {
+        return res.redirect('/login');
+    }
+    next();
+}
+
 // 4. Configuração do Proxy para a API
 // Chamadas para /api/... vão para o Python
 app.use('/api', createProxyMiddleware({
@@ -36,15 +58,33 @@ app.use('/api', createProxyMiddleware({
 }));
 
 // Rotas para templates HTML (agora em templates/)
-app.get('/', (req, res) => {
+app.get('/', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'templates', 'index.html'));
 });
-app.get('/cadastro.html', (req, res) => {
+app.get('/cadastro.html', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'templates', 'cadastro.html'));
 });
-app.get('/visualizar.html', (req, res) => {
+app.get('/visualizar.html', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'templates', 'visualizar.html'));
 });
+
+// Login e Logout
+app.get('/login', (req, res) => {
+    const cookies = getCookies(req);
+    if (cookies['access_token']) {
+        return res.redirect('/');
+    }
+    res.sendFile(path.join(__dirname, 'templates', 'login.html'));
+});
+
+app.get('/aplicacoes.html', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'templates', 'aplicacoes.html'));
+});
+
+app.get('/cliente.html', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'templates', 'cliente.html'));
+});
+
 
 app.listen(PORT, () => {
     console.log(`\n🚀 Servidor Node (Proxy + Site) rodando em: http://localhost:${PORT}`);

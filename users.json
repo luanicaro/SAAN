@@ -1,0 +1,32 @@
+[
+  {
+    "username": "admin",
+    "password_hash": "a7c8280e9262264c99772b422797d261ac3eec199c4a60af9f259198691eb9eb",
+    "role": "admin",
+    "id": 1
+  },
+  {
+    "username": "engenheiro",
+    "password_hash": "920fbefd6be2ad7d78d85f322bc5590260451a889e0d12c3e2b93e789042debc",
+    "role": "engenheiro",
+    "id": 2
+  },
+  {
+    "username": "cliente",
+    "password_hash": "9072c32e6a42b81398d157e507b7552b5427e13967bab61e09b17335162684d6",
+    "role": "stakeholder",
+    "id": 3
+  },
+  {
+    "username": "avaliador",
+    "password_hash": "3cc966b243e2b17025ca32db6e20fe116dd566c0c41768b5522d995ef5fa39fb",
+    "role": "avaliador",
+    "id": 4
+  },
+  {
+    "id": 5,
+    "username": "cliente2",
+    "password_hash": "e8a705214deb288bf6809c15743c68eed4e7016641a5926065189ec45541c7e8",
+    "role": "stakeholder"
+  }
+]

@@ -1,9 +1,23 @@
 let questions = [{ id: 1, text: '', example: '', scaleType: '5-point' }];
 
 document.addEventListener('DOMContentLoaded', () => {
+    ensureAdmin();
     renderQuestions();
     setupFileUpload();
 });
+
+async function ensureAdmin() {
+    try {
+        const res = await fetch('/api/auth/me');
+        if (res.status === 401) { window.location.href = '/login'; return; }
+        const data = await res.json();
+        if (!data?.user || data.user.role !== 'admin') {
+            window.location.href = '/';
+        }
+    } catch (_) {
+        window.location.href = '/login';
+    }
+}
 
 function renderQuestions() {
     const container = document.getElementById('questions-container');
@@ -123,9 +137,10 @@ async function handleSave() {
     const payload = { title, description: document.getElementById('form-desc').value, questions };
 
     try {
-        const res = await fetch('http://localhost:3000/api/forms', {
+        const res = await fetch('/api/forms', {
             method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
         });
+        if (res.status === 401) { window.location.href = '/login'; return; }
         if (res.ok) {
             document.getElementById('feedback-error').classList.add('hidden');
             document.getElementById('feedback-validation').classList.add('hidden');

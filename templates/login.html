@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar - Sistema de Avaliação</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/static/css/login.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo"><i data-lucide="layers"></i> Avaliação de Acessibilidade</div>
+  </nav>
+
+  <main class="main">
+    <section class="card">
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-login" onclick="showTab('login')">Entrar</button>
+        <button class="tab-btn" id="tab-register" onclick="showTab('register')">Criar conta</button>
+      </div>
+
+      <div id="login-pane" class="pane">
+        <h1 class="title">Bem-vindo</h1>
+        <p class="subtitle">Faça login para acessar o sistema</p>
+        <form id="login-form">
+          <label>Usuário</label>
+          <input type="text" id="login-username" placeholder="ex: joao" required />
+
+          <label>Senha</label>
+          <input type="password" id="login-password" placeholder="••••••••" required />
+
+          <button type="submit" class="btn primary"><i data-lucide="log-in" style="width:16px"></i> Entrar</button>
+        </form>
+      </div>
+
+      <div id="register-pane" class="pane hidden">
+        <h1 class="title">Criar conta</h1>
+        <p class="subtitle">Preencha para se cadastrar</p>
+        <form id="register-form">
+          <label>Usuário</label>
+          <input type="text" id="reg-username" placeholder="ex: maria" required />
+
+          <label>Senha</label>
+          <input type="password" id="reg-password" placeholder="mín. 4 caracteres" minlength="4" required />
+
+          <label>Perfil</label>
+          <select id="reg-role" required>
+            <option value="admin">Admin</option>
+            <option value="engenheiro">Engenheiro de Testes</option>
+            <option value="avaliador">Avaliador</option>
+            <option value="stakeholder">Cliente/Stakeholder</option>
+          </select>
+
+          <button type="submit" class="btn"><i data-lucide="user-plus" style="width:16px"></i> Criar conta</button>
+        </form>
+      </div>
+
+      <div id="msg" class="msg hidden"></div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Sistema de Gestão de Formulários (Dark Mode)
+  </footer>
+
+  <script src="/static/js/login.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

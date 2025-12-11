@@ -1,0 +1,61 @@
+:root {
+  --bg-body: #0f172a;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --border: #334155;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+
+.navbar {
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+
+.main { flex: 1; display: grid; place-items: center; padding: 24px; }
+.card {
+  width: 100%; max-width: 420px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,.3);
+}
+
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.tab-btn {
+  flex: 1; background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;
+}
+.tab-btn.active { border-color: var(--primary); color: var(--primary); }
+
+.title { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+.subtitle { color: var(--text-muted); margin-bottom: 20px; }
+
+label { display:block; color: var(--text-muted); font-size: .9rem; margin: 12px 0 6px; }
+input, select {
+  width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
+  background: #0f172a; color: var(--text-main);
+}
+
+.btn {
+  margin-top: 16px; width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-main); cursor: pointer; display:flex; gap:8px; align-items:center; justify-content:center;
+}
+.btn.primary { background: var(--primary); border: none; }
+.btn.primary:hover { background: var(--primary-hover); }
+
+.msg { margin-top: 16px; padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary); background: rgba(59,130,246,.1); color: var(--text-main); }
+.msg.error { border-color: #ef4444; background: rgba(239,68,68,.1); color: #fecaca; }
+.hidden { display: none; }
+
+footer { text-align: center; padding: 24px; color: var(--text-muted); font-size: 0.875rem; border-top: 1px solid var(--border); }

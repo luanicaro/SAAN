@@ -30,6 +30,8 @@ body {
     justify-content: space-between;
 }
 .logo { font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+.nav-link { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+.nav-link:hover { color: var(--primary); }
         
 /* --- CONTENT --- */
 .main-container {

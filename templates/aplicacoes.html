@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastrar Aplicações</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/static/css/aplicacoes.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand"><i data-lucide="layers"></i> Portal do Engenheiro</div>
+    <div class="nav-links">
+      <a href="/">Início</a>
+      <a href="visualizar.html">Avaliações</a>
+      <a href="#" onclick="logout(); return false;">Sair</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Cadastrar Nova Aplicação</h1>
+      <p>Associe um formulário a avaliadores para iniciar avaliações.</p>
+    </div>
+
+    <div id="msg" class="alert hidden"></div>
+
+    <section class="form-section">
+      <div>
+        <label>Nome da Aplicação</label>
+        <input type="text" id="app-name" placeholder="Ex: Meu Site" />
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label>Tipo</label>
+          <select id="app-type">
+            <option value="web">Web</option>
+            <option value="mobile">Mobile</option>
+          </select>
+        </div>
+        <div>
+          <label>URL/Pacote (opcional)</label>
+          <input type="text" id="app-url" placeholder="https://exemplo.com" />
+        </div>
+      </div>
+
+      <div>
+        <label>Formulário</label>
+        <select id="form-select"></select>
+      </div>
+
+      <div>
+        <label>Avaliadores</label>
+        <select id="evaluators-select" multiple size="6" style="width:100%"></select>
+        <div class="app-sub" style="margin-top:6px">Dica: Segure Ctrl/Cmd para selecionar múltiplos avaliadores.</div>
+      </div>
+
+      <div class="footer-actions">
+        <button class="btn" onclick="location.href='/'">Cancelar</button>
+        <button class="btn primary" id="btn-save"><i data-lucide='save' style='width:16px'></i> Salvar</button>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="subtitle2">Aplicações Cadastradas</h2>
+      <div id="apps-list" class="apps-list"></div>
+    </section>
+  </div>
+
+  <script src="/static/js/session.js"></script>
+  <script src="/static/js/aplicacoes.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -19,16 +19,18 @@
                 Atualizar
             </button>
             <a href="cadastro.html" class="btn-create">Criar Novo</a>
+            <a href="#" style="margin-left: 16px; color: var(--text-sec); text-decoration:none;" onclick="logout(); return false;">Sair</a>
         </div>
     </nav>
 
     <div class="container" id="content-area">
         <div class="loading-state">
             <i data-lucide="loader-2" class="animate-spin" style="width: 32px; height: 32px; animation: spin 1s infinite linear;"></i>
-            <p style="margin-top: 16px;">Carregando formulários...</p>
+            <p style="margin-top: 16px;">Carregando...</p>
         </div>
     </div>
 
+    <script src="/static/js/session.js"></script>
     <script src="/static/js/visualizar.js"></script>
     <script>lucide.createIcons();</script>
 </body>

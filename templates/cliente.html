@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatórios do Cliente</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/static/css/cliente.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand"><i data-lucide="layers"></i> Portal do Cliente</div>
+    <div class="nav-links">
+      <a href="/">Início</a>
+      <a href="#" onclick="logout(); return false;">Sair</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Nota de Acessibilidade por Aplicação</h1>
+      <p>Selecione a aplicação para visualizar a nota agregada (0 a 10) com base nas avaliações concluídas.</p>
+    </div>
+
+    <div id="msg" class="alert hidden"></div>
+
+    <section class="form-section">
+      <div>
+        <label for="app-select">Aplicação</label>
+        <select id="app-select"></select>
+      </div>
+      <div class="footer-actions">
+        <button class="btn primary" id="btn-ver"><i data-lucide="search" style="width:16px"></i> Ver Nota</button>
+      </div>
+    </section>
+
+    <section id="result" class="result hidden">
+      <div class="score-card">
+        <div class="score-label">Nota (0 – 10)</div>
+        <div id="score-value" class="score-value">--</div>
+        <div class="progress">
+          <div id="progress-bar" class="progress-bar" style="width:0%"></div>
+        </div>
+        <div class="meta">
+          <span id="meta-respostas">0 avaliações</span>
+          <span id="meta-itens">0 respostas</span>
+          <span class="method">Método: likert-linear</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/static/js/session.js"></script>
+  <script src="/static/js/cliente.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

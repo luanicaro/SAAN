@@ -14,6 +14,9 @@
             <i data-lucide="layers"></i>
             Avaliação de Acessibilidade
         </div>
+        <div>
+            <a href="#" class="nav-link" onclick="logout(); return false;">Sair</a>
+        </div>
     </nav>
 
     <div class="main-container">
@@ -31,12 +34,28 @@
                 <p class="card-desc">Cadastrar formulários, gerenciar perguntas e definir escalas.</p>
             </a>
 
+            <a href="aplicacoes.html" class="nav-card">
+                <div class="icon-bg">
+                    <i data-lucide="box" style="width: 40px; height: 40px;"></i>
+                </div>
+                <h2 class="card-title">Sou Engenheiro</h2>
+                <p class="card-desc">Cadastrar aplicações e atribuir formulários a avaliadores.</p>
+            </a>
+
             <a href="visualizar.html" class="nav-card">
                 <div class="icon-bg">
                     <i data-lucide="clipboard-check" style="width: 40px; height: 40px;"></i>
                 </div>
                 <h2 class="card-title">Sou Avaliador</h2>
                 <p class="card-desc">Responder avaliações disponíveis e testar a plataforma.</p>
+            </a>
+
+            <a href="cliente.html" class="nav-card">
+                <div class="icon-bg">
+                    <i data-lucide="bar-chart-3" style="width: 40px; height: 40px;"></i>
+                </div>
+                <h2 class="card-title">Sou Cliente</h2>
+                <p class="card-desc">Consultar a nota (0 a 10) de acessibilidade por aplicação.</p>
             </a>
         </nav>
     </div>
@@ -45,6 +64,7 @@
         &copy; 2025 Sistema de Gestão de Formulários (Dark Mode)
     </footer>
 
+    <script src="/static/js/session.js"></script>
     <script src="/static/js/index.js"></script>
     <script>lucide.createIcons();</script>
 </body>
