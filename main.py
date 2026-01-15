@@ -154,7 +154,16 @@ def get_user_from_token(request: Request) -> dict:
 def require_roles(roles: Optional[List[str]] = None):
     def _dependency(request: Request):
         payload = get_user_from_token(request)
-        if roles and payload.get("role") not in roles:
+        user_role = payload.get("role")
+        if roles and user_role not in roles:
+            print(f"[AUTH DEBUG] 403 Forbidden. User Role: '{user_role}'. Required one of: {roles}")
+            # Try Case insensitive
+            roles_lower = [r.lower() for r in roles]
+            if user_role and user_role.lower() in roles_lower:
+                 # Allow if case mismatch was the only issue, but warn
+                 print(f"[AUTH WARN] Allowed due to case-insensitive match.")
+                 return payload
+
             raise HTTPException(status_code=403, detail="Sem permissão")
         return payload
     return _dependency
@@ -374,19 +383,46 @@ def create_application(app_data: ApplicationSchema, user=Depends(require_roles([
         else:
              raise HTTPException(status_code=400, detail=f"Avaliador inválido ou não encontrado: {ident}")
 
-    new_app = models.Application(
-        name=app_data.name,
-        type=app_data.appType,
-        url=app_data.url or "",
-        form_id=app_data.formId
-    )
-    new_app.evaluators = evaluators_objects
-    
-    db.add(new_app)
-    db.flush() # ID
+    # Verifica se já existe aplicação com mesmo nome
+    existing_app = db.query(models.Application).filter(models.Application.name == app_data.name).first()
 
-    # Salvar Pesos
+    if existing_app:
+        print(f"[LOG] Atualizando aplicação existente ID {existing_app.id}")
+        # Atualiza campos
+        existing_app.type = app_data.appType
+        if app_data.url:
+             existing_app.url = app_data.url
+        # Nota: mudar form_id pode ser perigoso se já houver respostas, mas vamos permitir para flexibilidade
+        existing_app.form_id = app_data.formId
+
+        # Merge de avaliadores
+        current_ids = {u.id for u in existing_app.evaluators}
+        for u in evaluators_objects:
+            if u.id not in current_ids:
+                existing_app.evaluators.append(u)
+        
+        target_app = existing_app
+    else:
+        print(f"[LOG] Criando nova aplicação")
+        new_app = models.Application(
+            name=app_data.name,
+            type=app_data.appType,
+            url=app_data.url or "",
+            form_id=app_data.formId
+        )
+        new_app.evaluators = evaluators_objects
+        db.add(new_app)
+        target_app = new_app
+    
+    db.flush() 
+
+    # Salvar Pesos (Atualiza ou Cria)
     if app_data.groupWeights:
+        # Se for update, talvez limpar anteriores? Ou upsert? 
+        # Vamos fazer upsert simples: deleta antigos desse app e recria.
+        # É mais seguro para garantir consistencia com o input atual.
+        db.query(models.ApplicationGroupWeight).filter(models.ApplicationGroupWeight.application_id == target_app.id).delete()
+        
         for gid_str, weight in app_data.groupWeights.items():
             try:
                 gid = int(gid_str)
@@ -395,23 +431,23 @@ def create_application(app_data: ApplicationSchema, user=Depends(require_roles([
                     raise HTTPException(status_code=400, detail=f"Peso inválido para o grupo {gid}: deve ser entre 0 e 1")
 
                 gw = models.ApplicationGroupWeight(
-                    application_id=new_app.id,
+                    application_id=target_app.id,
                     group_id=gid,
                     weight=w_val
                 )
                 db.add(gw)
             except ValueError:
-                pass # Ignora chaves invalidas
+                pass 
     
     db.commit()
-    db.refresh(new_app)
+    db.refresh(target_app)
     
     return {
         "status": "success", 
         "application": {
-            "id": new_app.id,
-            "name": new_app.name,
-            "evaluators": [u.username for u in new_app.evaluators]
+            "id": target_app.id,
+            "name": target_app.name,
+            "evaluators": [u.username for u in target_app.evaluators]
         }
     }
 
@@ -539,8 +575,6 @@ NEURODIVERGENCY_PROFILES = {
     "Autismo": [0.16, 0.22, 0.18, 0.07, 0.08, 0.05, 0.14, 0.10],
     "Dislexia": [0.24, 0.16, 0.06, 0.14, 0.04, 0.10, 0.08, 0.18],
     "TDAH": [0.10, 0.26, 0.02, 0.14, 0.22, 0.07, 0.14, 0.05],
-    "Demencia": [0.10, 0.04, 0.16, 0.20, 0.30, 0.12, 0.07, 0.01],
-    "Sindrome de Down": [0.20, 0.22, 0.10, 0.18, 0.06, 0.12, 0.08, 0.04],
     "Discalculia": [0.26, 0.10, 0.04, 0.20, 0.04, 0.16, 0.12, 0.08],
     "Perda de memória": [0.08, 0.03, 0.16, 0.22, 0.32, 0.12, 0.06, 0.01],
     "Afasia": [0.28, 0.12, 0.04, 0.18, 0.03, 0.08, 0.07, 0.20]
@@ -562,14 +596,6 @@ NEURO_INFO = {
     "TDAH": {
         "description": "Transtorno de Déficit de Atenção e Hiperatividade. Dificuldade em manter o foco em tarefas longas e impulsividade.",
         "tips": "Divida tarefas em etapas curtas. Use feedback imediato e visual. Evite paredes de texto e animações distrativas desnecessárias."
-    },
-    "Demencia": {
-        "description": "Declínio cognitivo progressivo que afeta memória e raciocínio.",
-        "tips": "Extrema simplicidade é chave. Use navegação linear, botões grandes e etiquetas explícitas. Evite exigir memorização."
-    },
-    "Sindrome de Down": {
-        "description": "Pode envolver desafios cognitivos e de coordenação motora fina.",
-        "tips": "Use linguagem simples e direta. Botões grandes e espaçados facilitam o toque. Suporte visual é essencial."
     },
     "Discalculia": {
         "description": "Dificuldade específica com números e conceitos matemáticos.",
