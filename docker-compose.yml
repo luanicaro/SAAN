@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: saan_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://saan_user:senha_segura@db/saan_db
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    command: sh ./entrypoint.sh
+
+  db:
+    image: postgres:15-alpine
+    container_name: saan_db
+    environment:
+      - POSTGRES_USER=saan_user
+      - POSTGRES_PASSWORD=senha_segura
+      - POSTGRES_DB=saan_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

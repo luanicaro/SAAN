@@ -1,0 +1,57 @@
+# Ajuda os usuários a entender o que são as coisas e como usá-las
+    Os ícones e botões possuem rótulos textuais claros e compreensíveis, evitando ambiguidades sobre sua função exemplo: Ícone de engrenagem com o rótulo “Configurações”, e não apenas o símbolo isolado.
+    Os elementos interativos da interface têm função evidente, permitindo identificar facilmente o que é clicável, editável ou apenas informativo exemplo: Botões com aparência distinta de textos comuns, utilizando cor, borda ou relevo.
+    Imagens e/ou produtos apresentam descrições claras e informativas exemplo: Descrição textual detalhada das características físicas e técnicas de um produto.
+    Informações numéricas, valores ou medidas são apresentadas de forma clara e contextualizada exemplo: Exibição de preços como “R$ 29,90 por mês” ou medidas como “Peso: 2 kg”.
+    O vocabulário utilizado é simples, direto e evita termos técnicos ou ambíguos.
+
+# Reduz a carga cognitiva
+    As tarefas são organizadas em etapas curtas, objetivas e bem definidas exemplo: Formulários divididos em passos ou processos de cadastro separados por telas.
+    A interface limita e organiza a quantidade de opções exibidas, evitando sobrecarga visual exemplo: Menus que ocultam opções avançadas por padrão.
+    Funcionalidades avançadas aparecem apenas quando necessárias ou solicitadas exemplo: Uso de botões como “Ver mais” para expandir configurações complexas.
+
+# Apoia conhecimentos e hábitos existentes
+    A interface utiliza ícones visuais universalmente reconhecidos exemplo: Ícone de lupa para indicar a funcionalidade de busca.
+    A navegação segue convenções amplamente conhecidas exemplo: Menu posicionado no topo ou na lateral e logotipo clicável que leva à página inicial.
+    Botões e menus mantêm o mesmo comportamento em todas as páginas da aplicação exemplo: O botão “Salvar” executa sempre a mesma ação independente da seção.
+    Ícones e cores mantêm o mesmo significado em todo o sistema exemplo: O uso da cor vermelha indicando sempre erro ou exclusão.
+
+# Fornece suporte e treinamento
+    Instruções ou dicas aparecem junto às ações que exigem orientação.
+    Funcionalidades novas ou pouco familiares são apresentadas com exemplos, tutoriais ou orientações iniciais.
+    O sistema oferece uma introdução ou tutorial guiado na primeira utilização do usuário.
+    Dicas visuais ou textuais aparecem nos pontos de dúvida mais comuns exemplo: Ícones de interrogação ou ajuda ao lado de campos de preenchimento complexos.
+    Campos e escolhas incluem exemplos ou sugestões de preenchimento exemplo: Placeholder em campos de e-mail como “ex: nome@dominio.com”.
+    Há um botão ou canal de suporte e ajuda sempre visível e acessível na interface.
+
+# Dá suporte à memória e atenção
+    O usuário não precisa memorizar informações de páginas anteriores para concluir uma tarefa.
+    A interface permite que o usuário foque em uma única tarefa por vez exemplo: Ausência de pop-ups intrusivos durante a execução de tarefas principais.
+    O sistema indica claramente em que etapa, página ou seção o usuário se encontra exemplo: Uso de indicadores de progresso como “Etapa 2 de 4”.
+    Os elementos interativos ficam visualmente destacados quando o usuário vai utilizá-los exemplo: Botões que mudam de cor ou ganham destaque ao passar o cursor (hover).
+    A interface evita estímulos distrativos desnecessários exemplo: Ausência de sons automáticos ou elementos visuais piscantes.
+
+# Fornece suporte a erros
+    O sistema oferece etapas de revisão ou confirmação antes de ações decisivas exemplo: Tela de revisão de dados antes de enviar um formulário ou concluir uma compra.
+    Nenhuma ação ocorre automaticamente sem que o usuário a inicie ou autorize explicitamente exemplo: Arquivos que não são enviados sem comando direto.
+    É possível retomar uma ação interrompida sem perda de progresso exemplo: Formulários que mantêm os dados após erro de carregamento ou queda de conexão.
+    O sistema oferece opções claras para desfazer ou voltar ações recentes (Undo/Redo).
+    O sistema solicita confirmação antes de executar ações irreversíveis exemplo: Alerta de confirmação antes de uma exclusão definitiva.
+    As mensagens de erro explicam claramente o problema e como corrigi-lo de forma amigável.
+    Os formulários validam os campos antes do envio final exemplo: Aviso imediato de erro de preenchimento em campos específicos.
+    As informações preenchidas não se perdem após a ocorrência de erros exemplo: Manutenção dos dados no campo ao recarregar a página.
+
+# Fornece feedback oportuno, adequado e consistente
+    O sistema fornece feedback imediato após cada ação realizada pelo usuário exemplo: Mensagem de confirmação ao salvar uma alteração.
+    As mensagens de sucesso e erro são visualmente distintas, claras e compreensíveis.
+    O sistema indica claramente o que deve ser feito em seguida exemplo: Botões de ação clara como “Próxima etapa”.
+    Processos demorados exibem indicadores visuais de andamento exemplo: Uso de barras de progresso ou ícone de carregamento com texto explicativo.
+
+# Permite personalização, flexibilidade e alternativas
+    É possível ajustar preferências visuais como tamanho da fonte, espaçamento e contraste.
+    Há opção de alternância entre modo claro, modo escuro ou temas de alto contraste.
+    O usuário pode pausar, ocultar ou desativar animações automáticas na interface.
+    Há alternativas de formato de conteúdo para diferentes formas de compreensão exemplo: Disponibilidade de textos, áudios, vídeos com legendas ou LIBRAS.
+    A interface é responsiva e se adapta a diferentes dispositivos e modos de interação exemplo: Layout compatível com desktop (mouse) e celular (toque).
+    Conteúdos dinâmicos podem ser pausados ou controlados manualmente pelo usuário exemplo: Controle de pausa e navegação em carrosséis de banners.
+    Sons ou vídeos não iniciam automaticamente e possuem controles de volume e reprodução visíveis.
